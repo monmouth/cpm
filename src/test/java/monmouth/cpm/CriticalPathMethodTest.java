@@ -17,6 +17,9 @@ import monmouth.cpm.state.StateInterface.StateWithTaskDependencies;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.uci.ics.jung.graph.DirectedGraph;
+import edu.uci.ics.jung.graph.Graph;
+
 public class CriticalPathMethodTest {
 	CriticalPathMethod instance = null;
 	/*
@@ -30,14 +33,14 @@ public class CriticalPathMethodTest {
 	 *     |_T7
 	 * T8 
 	 */
-	Task task1 = new Task(1, createDate(2015, 7, 15), createDate(2015, 7, 16));
-	Task task2 = new Task(2, createDate(2015, 7, 17), createDate(2015, 7, 18));
-	Task task3 = new Task(3, createDate(2015, 7, 19), createDate(2015, 7, 21));
-	Task task4 = new Task(4, createDate(2015, 7, 22), createDate(2015, 7, 25));
-	Task task5 = new Task(5, createDate(2015, 7, 15), createDate(2015, 7, 18));
-	Task task6 = new Task(6, createDate(2015, 7, 19), createDate(2015, 7, 24));
-	Task task7 = new Task(7, createDate(2015, 7, 18), createDate(2015, 7, 21));
-	Task task8 = new Task(8, createDate(2015, 7, 22), createDate(2015, 7, 31));
+	Task task1 = new Task(1, createDate(2015, 7, 15), 2);
+	Task task2 = new Task(2, createDate(2015, 7, 17), 2);
+	Task task3 = new Task(3, createDate(2015, 7, 19), 3);
+	Task task4 = new Task(4, createDate(2015, 7, 22), 4);
+	Task task5 = new Task(5, createDate(2015, 7, 15), 4);
+	Task task6 = new Task(6, createDate(2015, 7, 19), 6);
+	Task task7 = new Task(7, createDate(2015, 7, 18), 4);
+	Task task8 = new Task(8, createDate(2015, 7, 22), 10);
 	List<Task> allTasks = Arrays.asList(task1, task2, task3, task4, task5, task6, task7, task8);
 	
 	TaskDependency dep1 = new TaskDependency(1, 2, TaskDependency.FS, 0);
@@ -102,7 +105,14 @@ public class CriticalPathMethodTest {
 	
 	@Test
 	public void testCreateGrpah() {
-		instance.create().addTasks(allTasks).addTaskDependencies(dependencies).createNetworkDiagram();
+		StateReadyToDoForwardPass state = instance.create().addTasks(allTasks).addTaskDependencies(dependencies).createNetworkDiagram();
+		Graph g = state.getGraph();
+		assertNotNull(g);
+		assertNotNull(g.getInEdges(task1));
+		assertEquals(1, g.getInEdges(task1).size());
+		assertEquals(2, g.getOutEdges(task1).size());
+		assertEquals(1, g.getInEdges(task8).size());
+		assertEquals(1, g.getOutEdges(task8).size());
 	}
 	
 	private Date createDate(int year, int monthOfYear, int date) {

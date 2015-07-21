@@ -8,43 +8,24 @@ package monmouth.cpm.model;
  * Edge class in the graph data structure.
  */
 public class Edge {
-	private int capacity;
+	private double capacity = 0.0;
+	private Task start;
+	private Task end;
 	
-	public Edge(int capacity) {
-		this.capacity = capacity;
-	}
-	
-	public String toString() {
-		return "EdgeOf";
-	}
-	/*
-    private Task start;
-    private Task end;
-    private TaskDependency dependency;
-    
-	public Task getStart() {
-		return start;
-	}
-	public Edge setStart(Task start) {
+	public Edge(Task start, Task end) {
 		this.start = start;
-		return this;
-	}
-	public Task getEnd() {
-		return end;
-	}
-	public Edge setEnd(Task end) {
 		this.end = end;
-		return this;
+		if (!start.isDummy()) {
+			this.capacity = start.getDuration();
+		}
 	}
-	public TaskDependency getDependency() {
-		return dependency;
-	}
-	public Edge setDependency(TaskDependency dependency) {
-		this.dependency = dependency;
-		return this;
+
+	public double getCapacity() {
+		return capacity;
 	}
 	
-	public static Edge create() {
-		return new Edge();
-	}*/
+	@Override
+	public String toString() {
+		return String.format("Edge(%s->%s)", start.toString(), end.toString());
+	}
 }

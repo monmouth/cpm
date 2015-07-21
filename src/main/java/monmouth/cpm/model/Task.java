@@ -2,6 +2,12 @@ package monmouth.cpm.model;
 
 import java.util.Date;
 
+/**
+ * Task class to represent an activity in a project. There're two kinds of Task,
+ * one has its own specified start date and the other only has duration.
+ * @author ken
+ *
+ */
 public class Task {
 	private long id;
 	private Date start;
@@ -12,15 +18,34 @@ public class Task {
 	private Date lf;
 	private int duration;
 	private int slack;
-	
+
+	/**
+	 * Default non-arg constructor.
+	 */
 	public Task() {
 		
 	}
-	
-	public Task(long id, Date start, Date finish) {
+
+	/**
+	 * Constructor for tasks with specified start date.
+	 * @param id task id
+	 * @param start start date
+	 * @param duration task duration in days
+	 */
+	public Task(long id, Date start, int duration) {
 		this.id = id;
 		this.start = start;
-		this.finish = finish;
+		this.duration = duration;
+	}
+
+	/**
+	 * Constructor for tasks with dependent preceding tasks.
+	 * @param id task id
+	 * @param duration task duration in days
+	 */
+	public Task(long id, int duration) {
+		this.id = id;
+		this.duration = duration;
 	}
 
 	public long getId() {

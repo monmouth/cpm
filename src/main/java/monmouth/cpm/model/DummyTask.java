@@ -12,7 +12,14 @@ public class DummyTask extends Task {
 	
 	@Override
 	public String toString() {
-		return getTitle();
+		switch(new Long(getId()).intValue()) {
+		case Task.START_TASK_ID:
+			return "Start";
+		case Task.FINISH_TASK_ID:
+			return "Finish";
+		default: 
+			return "";	
+		}
 	}
 	
 	@Override
@@ -20,12 +27,15 @@ public class DummyTask extends Task {
 		return true;
 	}
 	
-	public DummyTask(String title) {
-		super();
-		this.title = title;
+	private DummyTask(int id, int duration) {
+		super(id, duration);
 	}
-
-	public String getTitle() {
-		return title;
+	
+	public static DummyTask createStart() {
+		return new DummyTask(Integer.MIN_VALUE, 0);
+	}
+	
+	public static DummyTask createFinish() {
+		return new DummyTask(Integer.MAX_VALUE, 0);
 	}
 }

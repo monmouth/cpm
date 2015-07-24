@@ -62,4 +62,8 @@ public class TaskDependency {
 		this.lag = lag;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("dep(%s-%s)", predecessorId, successorId);
+	}
 }

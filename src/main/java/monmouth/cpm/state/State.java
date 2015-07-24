@@ -3,6 +3,7 @@ package monmouth.cpm.state;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.Graph;
 import monmouth.cpm.model.Edge;
 import monmouth.cpm.model.Task;
@@ -82,7 +83,7 @@ public class State {
 		}
 
 		@Override
-		public Graph<Task, Edge> getGraph() {
+		public DirectedGraph<Task, Edge> getGraph() {
 			return previousState.getGraph();
 		}
 

@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import monmouth.cpm.logic.CriticalPathMethod;
+import monmouth.cpm.logic.LongestPath;
+import monmouth.cpm.model.Edge;
 import monmouth.cpm.model.Task;
 import monmouth.cpm.model.TaskDependency;
 import monmouth.cpm.state.StateInterface.StateReadyToDoForwardPass;
@@ -106,13 +108,25 @@ public class CriticalPathMethodTest {
 	@Test
 	public void testCreateGrpah() {
 		StateReadyToDoForwardPass state = instance.create().addTasks(allTasks).addTaskDependencies(dependencies).createNetworkDiagram();
-		Graph g = state.getGraph();
+		DirectedGraph<Task, Edge> g = state.getGraph();
 		assertNotNull(g);
 		assertNotNull(g.getInEdges(task1));
 		assertEquals(1, g.getInEdges(task1).size());
 		assertEquals(2, g.getOutEdges(task1).size());
 		assertEquals(1, g.getInEdges(task8).size());
 		assertEquals(1, g.getOutEdges(task8).size());
+	}
+	
+	@Test
+	public void testTopology() {
+		StateReadyToDoForwardPass state = instance.create().addTasks(allTasks)
+				.addTaskDependencies(dependencies).createNetworkDiagram();
+		DirectedGraph<Task, Edge> g = state.getGraph();
+		for (Task t : g.getVertices()) {
+			System.out.println(t);
+		}
+		LongestPath lp = new LongestPath(g);
+		lp.computeLogestPath(Task.START_TASK_ID);
 	}
 	
 	private Date createDate(int year, int monthOfYear, int date) {

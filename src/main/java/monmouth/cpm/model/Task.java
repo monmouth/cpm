@@ -8,7 +8,9 @@ import java.util.Date;
  * @author ken
  *
  */
-public class Task {
+public class Task implements Comparable<Object>{
+	public static final int START_TASK_ID = Integer.MIN_VALUE;
+	public static final int FINISH_TASK_ID = Integer.MAX_VALUE;
 	private long id;
 	private Date start;
 	private Date finish;
@@ -32,7 +34,7 @@ public class Task {
 	 * @param start start date
 	 * @param duration task duration in days
 	 */
-	public Task(long id, Date start, int duration) {
+	public Task(int id, Date start, int duration) {
 		this.id = id;
 		this.start = start;
 		this.duration = duration;
@@ -43,7 +45,7 @@ public class Task {
 	 * @param id task id
 	 * @param duration task duration in days
 	 */
-	public Task(long id, int duration) {
+	public Task(int id, int duration) {
 		this.id = id;
 		this.duration = duration;
 	}
@@ -52,7 +54,7 @@ public class Task {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -131,5 +133,11 @@ public class Task {
 		} else {
 			return "Task-" + id;
 		}
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Task target = (Task) o;
+		return new Long(this.getId() - target.getId()).intValue();
 	}
 }

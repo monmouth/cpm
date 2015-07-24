@@ -1,35 +1,25 @@
 package monmouth.cpm.state;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
-
-import org.apache.commons.collections15.Factory;
-import org.apache.commons.collections15.Transformer;
-
-import monmouth.cpm.logic.DateCalcIF;
-import monmouth.cpm.logic.SimpleDateCalculator;
 import monmouth.cpm.model.DummyTask;
 import monmouth.cpm.model.Edge;
+import monmouth.cpm.model.NetworkDiagram;
 import monmouth.cpm.model.Task;
 import monmouth.cpm.model.TaskDependency;
 import monmouth.cpm.state.State.MyStateWithTaskDependencies;
 import monmouth.cpm.state.StateInterface.StateReadyToDoForwardPass;
 import monmouth.cpm.state.StateInterface.StateWithTasks;
-import edu.uci.ics.jung.algorithms.flows.EdmondsKarpMaxFlow;
 import edu.uci.ics.jung.graph.DirectedGraph;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.Graph;
 
 public class StateWithTaskDependenciesImpl extends MyStateWithTaskDependencies {
 
     private Hashtable<Long, Task> tasks = new Hashtable<>();
     private ArrayList<Task> tasksWithPredecessor = new ArrayList<>();
     private ArrayList<Task> tasksWithSuccessor = new ArrayList<>();
-    private Task Start = new DummyTask("Start");
-    private Task Finish = new DummyTask("Finish");
-    private DirectedGraph<Task, Edge> g = new DirectedSparseGraph<>();
+    private Task Start = DummyTask.createStart();
+    private Task Finish = DummyTask.createFinish();
+    private DirectedGraph<Task, Edge> g = new NetworkDiagram<>();
 
     public StateWithTaskDependenciesImpl(StateWithTasks previousState) {
         super(previousState);
@@ -85,7 +75,7 @@ public class StateWithTaskDependenciesImpl extends MyStateWithTaskDependencies {
 			successor = tasks.get(dependency.getSuccessorId());
 			g.addEdge(new Edge(predecessor, successor), predecessor, successor);
 		}
-
+        /*
 		Transformer<Edge, Number> myTransformer = new Transformer<Edge, Number>() {
 			public Double transform(Edge edge) {
 				return edge.getCapacity();
@@ -104,11 +94,11 @@ public class StateWithTaskDependenciesImpl extends MyStateWithTaskDependencies {
 		alg.evaluate();
 		System.out.println("the max flow is: " + alg.getMaxFlow());
 		System.out.println("the edge set is: " + alg.getMinCutEdges().toString());
-
+        */
 		return new StateReadyToDoForwardPassImpl(this);
 	}
 
-    public Graph<Task, Edge> getGraph() {
+    public DirectedGraph<Task, Edge> getGraph() {
         return g;
     }
 

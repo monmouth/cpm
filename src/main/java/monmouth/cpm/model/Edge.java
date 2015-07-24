@@ -8,20 +8,20 @@ package monmouth.cpm.model;
  * Edge class in the graph data structure.
  */
 public class Edge {
-	private double capacity = 0.0;
+	private double weight = 0.0;
 	private Task start;
 	private Task end;
 	
 	public Edge(Task start, Task end) {
 		this.start = start;
 		this.end = end;
-		if (!start.isDummy()) {
-			this.capacity = start.getDuration();
+		if (start.isDummy()) {
+			this.weight = start.getDuration();
 		}
 	}
 
-	public double getCapacity() {
-		return capacity;
+	public double getWeight() {
+		return weight;
 	}
 	
 	@Override

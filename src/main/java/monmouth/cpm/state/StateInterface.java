@@ -2,6 +2,7 @@ package monmouth.cpm.state;
 
 import java.util.List;
 
+import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.Graph;
 import monmouth.cpm.model.Edge;
 import monmouth.cpm.model.Task;
@@ -41,12 +42,12 @@ public interface StateInterface {
 		List<TaskDependency> getTaskDependencies();
 		void setTaskDependencies(List<TaskDependency> taskDependencies);
 		StateReadyToDoForwardPass createNetworkDiagram();
-		Graph<Task, Edge> getGraph();
+		DirectedGraph<Task, Edge> getGraph();
 	}
 	
 	public interface StateReadyToDoForwardPass {
 		StateReadyToDoBackwarddPass forwardPass();
-		Graph<Task, Edge> getGraph();
+		DirectedGraph<Task, Edge> getGraph();
 	}
 	
 	public interface StateReadyToDoBackwarddPass {
